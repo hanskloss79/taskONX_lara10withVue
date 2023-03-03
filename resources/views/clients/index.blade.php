@@ -32,6 +32,7 @@
                 <th>Email</th>
                 <th width="280px">Akcja</th>
             </tr>
+            
             @foreach ($clients as $client)
             <tr>
                 <td>{{ $client->id }}</td>
