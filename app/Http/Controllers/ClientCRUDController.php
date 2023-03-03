@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\User;
 use App\Notifications\EmailNotification;
 use Illuminate\Support\Facades\Notification;
+use Inertia\Inertia;
 
 
 class ClientCRUDController extends Controller
@@ -19,8 +20,15 @@ class ClientCRUDController extends Controller
     public function index()
     {
         //
+        /*
         $data['clients'] = Client::all()->sortBy('id');
         return view('clients.index', $data);
+        */
+        $clients = Client::all();
+
+        return Inertia::render('Clients', [
+            'clients' => $clients
+        ]);
     }
 
     /**
