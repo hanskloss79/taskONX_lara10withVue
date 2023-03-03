@@ -31,6 +31,12 @@ Route::get('/', function () {
 });
 
 
+//Route::get('/clients/create', function () {
+//    return Inertia::render('CreateClient');
+//})->middleware(['auth', 'verified'])->name('createClient');
+
+
+
 
 Route::get('/dashboard', function () {
     $clients = Client::all();
@@ -38,6 +44,8 @@ Route::get('/dashboard', function () {
         'clients' => $clients
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

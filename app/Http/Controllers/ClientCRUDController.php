@@ -26,9 +26,12 @@ class ClientCRUDController extends Controller
         */
         $clients = Client::all();
 
-        return Inertia::render('Clients', [
-            'clients' => $clients
+        return Inertia::render('Dashboard', [
+        'clients' => $clients
         ]);
+        //return Inertia::render('Clients', [
+        //    'clients' => $clients
+        //]);
     }
 
     /**
@@ -38,7 +41,8 @@ class ClientCRUDController extends Controller
      */
     public function create()
     {
-        return view('clients.create');
+        //return view('clients.create');
+        return Inertia::render('CreateClient');
     }
 
     /**
@@ -77,8 +81,7 @@ class ClientCRUDController extends Controller
         Notification::send($admin, new EmailNotification($infoForAdmin));
 
         // go to the list of Clients
-        return redirect()->route('clients.index')
-            ->with('success', 'Klient został dodany do bazy.');
+        return redirect()->route('clients.index');
     }
 
     /**
