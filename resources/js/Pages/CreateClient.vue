@@ -107,7 +107,7 @@ const submit = () => {
 
             <div class="flex items-center justify-end mt-4">
                 <div class="pull-right">
-                    <a class="btn btn-primary btn-sm" href="/dashboard">Powrót do listy klientów</a>
+                    <a class="btn btn-primary btn-sm" href="#clientsList">Powrót do listy klientów</a>
                 </div>
                 <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Dodaj dane klienta
