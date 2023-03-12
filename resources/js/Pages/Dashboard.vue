@@ -1,5 +1,6 @@
 <script setup>
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Modal from '@/Components/Modal.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import CreateClient from '@/Pages/CreateClient.vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
@@ -8,7 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import * as bootstrap from 'bootstrap/dist/js/bootstrap';
 
 
-defineProps({ clients: Array })
+let clientsListProxy = defineProps({ clients: Array });
 
 
 const state = reactive({
@@ -16,32 +17,39 @@ const state = reactive({
 })
 
 onMounted(() => {
+    //console.log(JSON.parse(JSON.stringify(clientsListProxy)) ); 
+    let clientsList =  JSON.parse(JSON.stringify(clientsListProxy));
+    console.log(clientsList['clients'][0]);
+    //console.log(Object.keys(clientsList['clients']));
+    //var a3 = Object.keys(clientsList['clients']).map(function (k) { return clientsList['clients'][k];})
+    //console.log(a3);
     state.modalClientShow = new bootstrap.Modal('#modalClientShow', {});
     modalClientShow.addEventListener('show.bs.modal', function (event) {
         console.log(event.relatedTarget);
         var detailsButton = event.relatedTarget;
         let actualClientNumber = detailsButton.getAttribute('clientNumber');
-        let actualClientFirstname = detailsButton.getAttribute('clientFirstname');
-        let actualClientLastname = detailsButton.getAttribute('clientLastname');
-        let actualClientEmail = detailsButton.getAttribute('clientEmail');
-        let actualClientPhone = detailsButton.getAttribute('clientPhone');
-        let actualClientBirthdate = detailsButton.getAttribute('clientBirthdate');
+        // new attempt to show Client data
+        console.log(clientsList['clients']);
+        const actualClient = clientsList['clients'].find((client) => client.id == actualClientNumber);
+        console.log(actualClient);
+        let clientFirstname = document.getElementById('clientFirstname');
+        clientFirstname.innerHTML = actualClient.firstname;
+        let clientLastname = document.getElementById('clientLastname');
+        clientLastname.innerHTML = actualClient.lastname;
+        let clientEmail = document.getElementById('clientEmail');
+        clientEmail.innerHTML = actualClient.email;
+        let clientPhone = document.getElementById('clientPhone');
+        clientPhone.innerHTML = actualClient.phone;
+        let clientBirthdate = document.getElementById('clientBirthdate');
+        clientBirthdate.innerHTML = actualClient.birth_date;
         console.log(actualClientNumber);
+        
         let modalHeader = document.getElementById('modalClientShowLabel');
         modalHeader.innerHTML = 'Dane klienta nr ' + actualClientNumber;
         let tableData = document.getElementById('clientDetailsTable');
         //let actualClient = clientsList;
         //console.log(actualClient);
-        let clientFirstname = document.getElementById('clientFirstname');
-        clientFirstname.innerHTML = actualClientFirstname;
-        let clientLastname = document.getElementById('clientLastname');
-        clientLastname.innerHTML = actualClientLastname;
-        let clientEmail = document.getElementById('clientEmail');
-        clientEmail.innerHTML = actualClientEmail;
-        let clientPhone = document.getElementById('clientPhone');
-        clientPhone.innerHTML = actualClientPhone;
-        let clientBirthdate = document.getElementById('clientBirthdate');
-        clientBirthdate.innerHTML = actualClientBirthdate;
+        
     });
 
 })
@@ -143,10 +151,7 @@ function closeModal() {
                                 <td>{{ client.email }}</td>
                                 <td>
                                     <button id="detailsButton" type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                        :clientNumber='client.id' :clientFirstname='client.firstname' 
-                                        :clientLastname='client.lastname' :clientEmail='client.email'
-                                        :clientPhone='client.phone' :clientBirthdate='client.birth_date'
-                                        data-bs-target="#modalClientShow" @click="openModal">
+                                        :clientNumber='client.id' data-bs-target="#modalClientShow" @click="openModal">
                                         Szczegóły
                                     </button>
 
@@ -158,8 +163,9 @@ function closeModal() {
                 </div>
             </div>
         </div>
+        <PrimaryButton>To jest próba</PrimaryButton>
 
-
+        <Modal>ljfklsfjslj</Modal>
     </AuthenticatedLayout>
     <CreateClient id="addClient">
 
